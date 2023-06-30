@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  favoriteFoods  String[]  @db.ObjectId
+
+  accounts Account[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model NutritionFacts {
+  id                    String @id @default(auto()) @map("_id") @db.ObjectId
+  name                  String
+  serving_size_g        Float
+  calories              Float
+  cholestrol_mg         Float
+  sodium_mg             Float
+  folate_mcg            Float
+  folic_acid_mcg        Float
+  niacin_mg             Float
+  pantothenic_acid_mg   Float
+  riboflavin_mg         Float
+  thiamin_mg            Float
+  vitamin_a_iu          Float
+  vitamin_b12_mcg       Float
+  vitamin_b6_mg         Float
+  vitamin_c_mg          Float
+  vitamin_d_mg          Float
+  vitamin_e_mg          Float
+  vitamin_k_mg          Float
+  calcium_mg            Float
+  iron_mg               Float
+  magnesium_mg          Float
+  potassium_mg          Float
+  zinc_mg               Float
+  protein_g             Float
+  carbohydrates_g       Float
+  fiber_g               Float
+  sugars_g              Float
+  total_fat_g           Float
+  saturated_fat_g       Float
+  monounsaturated_fat_g Float
+  polyunsaturated_fat_g Float
+  trans_fat_g           Float
+  caffeine_mg           Float
+  water_g               Float
+}
