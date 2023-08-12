@@ -33,24 +33,23 @@ const LoginModal = () => {
     setIsLoading(true);
     signIn("credentials", {
       ...data,
-      redirect: false
-    })
-      .then((callback) => {
-        setIsLoading(false);
-        if (callback?.ok) {
-          toast.success("Logged in!");
-          router.refresh();
-          loginModal.onClose();
-        }
-        if (callback?.error) {
-          toast.error(callback.error);
-        }
-      })
+      redirect: false,
+    }).then((callback) => {
+      setIsLoading(false);
+      if (callback?.ok) {
+        toast.success("Logged in!");
+        router.refresh();
+        loginModal.onClose();
+      }
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome back" subtitle="Login to your account!" />
+      <Heading title="Welcome back!" subtitle="Login to your account" />
       <Input
         id="email"
         label="Email"
@@ -76,12 +75,15 @@ const LoginModal = () => {
       <hr />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row justify-center items-center gap-2">
-          <div>Already have an account?</div>
+          <div>Don't have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={() => {
+              loginModal.onClose();
+              registerModal.onOpen();
+            }}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Log in
+            Create one here
           </div>
         </div>
       </div>

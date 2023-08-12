@@ -8,9 +8,14 @@ import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
+import useLoginModal from "@/hooks/useLoginModal";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const RegisterModal = () => {
+  const router = useRouter();
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -31,6 +36,20 @@ const RegisterModal = () => {
       .post("/api/register", data)
       .then(() => {
         registerModal.onClose();
+        toast.success("Signed up successfully!");
+        signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        }).then((callback) => {
+          if (callback?.ok) {
+            toast.success("Logged in!");
+            router.refresh();
+          }
+          if (callback?.error) {
+            toast.error(callback.error);
+          }
+        });
       })
       .catch((error) => {
         toast.error("Something went wrong");
@@ -42,7 +61,7 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to NutriDiet" subtitle="Create an account!" />
+      <Heading title="Welcome to NutriDiet!" subtitle="Create an account" />
       <Input
         id="email"
         label="Email"
@@ -78,7 +97,10 @@ const RegisterModal = () => {
         <div className="flex flex-row justify-center items-center gap-2">
           <div>Already have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={() => {
+              registerModal.onClose();
+              loginModal.onOpen();
+            }}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Log in
