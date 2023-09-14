@@ -1,4 +1,4 @@
-import HomepageButton from "@/components/HomepageButton";
+import ResponsiveButton from "@/components/ResponsiveButton";
 
 export default function Home() {
   return (
@@ -6,11 +6,11 @@ export default function Home() {
       <h1 className="md:text-6xl sm:text-5xl text-3xl font-serif">
         Welcome to NutriDiet 🌿
       </h1>
-      <h2 className="mt-4 md:text-xl sm:text-lg text-sm font-serif">
+      <h2 className="mt-4 md:text-xl sm:text-lg text-sm">
         For all your nutrition needs.
       </h2>
       <div className="flex mt-8 sm:gap-10 gap-5">
-        <HomepageButton label="Get Started" />
+        <ResponsiveButton label="Get Started" />
       </div>
     </div>
   );
