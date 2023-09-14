@@ -81,7 +81,7 @@ const LoginModal = () => {
               loginModal.onClose();
               registerModal.onOpen();
             }}
-            className="text-neutral-800 cursor-pointer hover:underline"
+            className="text-neutral-950 cursor-pointer hover:underline"
           >
             Create one here
           </div>
