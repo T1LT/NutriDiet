@@ -13,11 +13,13 @@ const Search = () => {
     formData.append("input", input);
     formData.append("inputType", inputType);
 
-    // const response = await fetch("/api/search", {
-    //   method: "POST",
-    //   body: formData,
-    // });
-    // const data = await response.json();
+    const response = await fetch("/api/search", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+
+    // TODO: PARSE THE DATA TO DISPLAY TABLES
   };
 
   return (
@@ -37,6 +39,7 @@ const Search = () => {
             <option value="Nutrient">Nutrient 🔬</option>
           </select>
 
+          {/* TODO: DEBOUNCE INPUT */}
           <input
             type="text"
             placeholder={`Search for a ${inputType}`}
