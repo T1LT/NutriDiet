@@ -2,14 +2,8 @@
 
 import ResponsiveButton from "@/components/ResponsiveButton";
 import Typewriter from "typewriter-effect";
-import GraphemeSplitter from "grapheme-splitter";
 
 export default function Home() {
-  const stringSplitter = (text: string) => {
-    const splitter = new GraphemeSplitter();
-    return splitter.splitGraphemes(text);
-  };
-
   return (
     <div className="h-full flex flex-col items-center justify-center">
       <h1 className="md:text-6xl sm:text-5xl text-3xl font-serif">
@@ -21,11 +15,11 @@ export default function Home() {
           <Typewriter
             options={{
               strings: [
-                "calorie 🍽️",
-                "carbohydrate 🥔",
-                "protein 🍖",
-                "fat 🍕",
-                "vitamin 💊",
+                "calorie",
+                "carbohydrate",
+                "protein",
+                "fat",
+                "vitamin",
               ],
               autoStart: true,
               loop: true,
