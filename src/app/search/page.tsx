@@ -39,7 +39,7 @@ const Search = () => {
             <option value="Nutrient">Nutrient 🔬</option>
           </select>
 
-          {/* TODO: DEBOUNCE INPUT */}
+          {/* TODO: DEBOUNCE INPUT FIELD */}
           <input
             type="text"
             placeholder={`Search for a ${inputType}`}
@@ -50,6 +50,9 @@ const Search = () => {
           />
         </div>
 
+        {/* TODO: ADD SUGGESTIONS DROPDOWN */}
+
+        {/* TODO: REMOVE THIS BUTTON */}
         <div className="mt-8 flex justify-center">
           <button className="md:w-[150px] sm:w-[125px] w-[100px] font-semibold hover:opacity-80 transition bg-green-500 border-green-500 text-white py-3 md:text-base text-sm border-2 rounded-full">
             Search
