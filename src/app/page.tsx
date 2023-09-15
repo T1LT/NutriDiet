@@ -24,7 +24,6 @@ export default function Home() {
               autoStart: true,
               loop: true,
               cursor: "",
-              stringSplitter: stringSplitter,
             }}
           />
         </span>{" "}
