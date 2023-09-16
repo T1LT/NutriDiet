@@ -31,7 +31,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
                 // TODO: ADD REDIRECTION ON CLICK
                 // onClick={handleClick}
               >
-                {result}
+                {inputType === "Food Item" ? result[1] : result}
               </li>
             ))}
           </ul>

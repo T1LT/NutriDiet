@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prismadb";
-import { Prisma } from "@prisma/client";
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -9,7 +8,8 @@ export async function POST(req: Request) {
 
   if (inputType === "Food Item") {
     // prisma call to search by input text
-    const result = await prisma.nutritionFacts.findMany({
+    const rawResult = await prisma.nutritionFacts.findMany({
+      select: { id: true, name: true },
       where: {
         name: {
           contains: input,
@@ -17,6 +17,8 @@ export async function POST(req: Request) {
         },
       },
     });
+
+    const result = rawResult.map(el => [el.id, el.name]);
 
     // build response using result
     return NextResponse.json(

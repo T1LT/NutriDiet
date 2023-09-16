@@ -50,7 +50,7 @@ const Search = () => {
             onChange={(e) => setInputType(e.target.value)}
             className="outline-none p-2 border-2 border-neutral-200 rounded-md focus:border-neutral-600 transition md:text-lg"
           >
-            <option value="Food Item">Food Item 🥦</option>
+            <option value="Food Item">Food Item 🌮</option>
             <option value="Nutrient">Nutrient 🔬</option>
           </select>
 
