@@ -24,14 +24,43 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } else {
-    // prisma call to get column names
-    const fields = Prisma.dmmf.datamodel.models.map(model => model.fields.map(a => a.name))[2].slice(3);
+    const fields = [
+      "Calcium",
+      "Calories",
+      "Carbohydrates",
+      "Cholesterol",
+      "Fiber",
+      "Folate",
+      "Folic Acid",
+      "Iron",
+      "Magnesium",
+      "Monounsaturated Fat",
+      "Niacin",
+      "Pantothenic Acid",
+      "Polyunsaturated Fat",
+      "Potassium",
+      "Protein",
+      "Riboflavin",
+      "Saturated Fat",
+      "Serving Size",
+      "Sodium",
+      "Sugars",
+      "Thiamin",
+      "Total Fat",
+      "Trans Fat",
+      "Vitamin A",
+      "Vitamin B12",
+      "Vitamin B6",
+      "Vitamin C",
+      "Vitamin D",
+      "Vitamin E",
+      "Vitamin K",
+      "Water",
+      "Zinc"
+    ];
     
     // filtering based on search query
-    const rawResult = fields.filter(el => el.includes(input.toLowerCase()));
-
-    // parse the result
-    const result = rawResult.map(el => el.split("_").map(el => el[0].toUpperCase() + el.substring(1)).join(" "));
+    const result = fields.filter(el => el.toLowerCase().includes(input.toLowerCase()));
 
     // build response using result
     return NextResponse.json(

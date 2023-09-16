@@ -68,7 +68,6 @@ const Search = () => {
           />
         </div>
 
-        {/* TODO: ADD SUGGESTIONS DROPDOWN */}
         <div className="absolute z-10 sm:top-[3.5rem] top-[7.25rem] w-full">
           {input !== "" && focused && (
             <SearchResults results={results} inputType={inputType} />
