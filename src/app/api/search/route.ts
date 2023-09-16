@@ -7,13 +7,6 @@ export async function POST(req: Request) {
   const input = formData.get("input") as string;
   const inputType = formData.get("inputType") as string;
 
-  if (!input) {
-    return NextResponse.json(
-      { error: "Missing input" },
-      { status: 400 },
-    );
-  }
-
   if (inputType === "Food Item") {
     // prisma call to search by input text
     const result = await prisma.nutritionFacts.findMany({
@@ -26,10 +19,24 @@ export async function POST(req: Request) {
     });
 
     // build response using result
+    return NextResponse.json(
+      result,
+      { status: 200 }
+    );
   } else {
     // prisma call to get column names
-    // const cols = Prisma.dmmf.datamodel.models.map(model => [model.name, model.fields.map(a => a.name)]);
+    const fields = Prisma.dmmf.datamodel.models.map(model => model.fields.map(a => a.name))[2].slice(3);
     
-    // build response using cols
+    // filtering based on search query
+    const rawResult = fields.filter(el => el.includes(input.toLowerCase()));
+
+    // parse the result
+    const result = rawResult.map(el => el.split("_").map(el => el[0].toUpperCase() + el.substring(1)).join(" "));
+
+    // build response using result
+    return NextResponse.json(
+      result,
+      { status: 200 }
+    );
   }
 }

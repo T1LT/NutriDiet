@@ -1,14 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { useState, useEffect } from "react";
+import SearchResults from "./SearchResults";
 
 const Search = () => {
   const [input, setInput] = useState("");
   const [inputType, setInputType] = useState("Food Item");
+  const [focused, setFocused] = useState(false);
+  const [results, setResults] = useState([]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  };
 
+  const fetchResults = async () => {
     const formData = new FormData();
     formData.append("input", input);
     formData.append("inputType", inputType);
@@ -18,9 +24,18 @@ const Search = () => {
       body: formData,
     });
     const data = await response.json();
-
-    // TODO: PARSE THE DATA TO DISPLAY TABLES
+    setResults(data);
   };
+
+  const debounced = useDebounce(input, 500);
+
+  useEffect(() => {
+    if (debounced !== "") {
+      fetchResults();
+    } else {
+      setResults([]);
+    }
+  }, [debounced]);
 
   return (
     <div className="h-full flex flex-col items-center justify-center">
@@ -28,7 +43,7 @@ const Search = () => {
         Search our Nutrition Database 🔍
       </h1>
 
-      <form className="flex flex-col mt-10" onSubmit={handleSubmit}>
+      <form className="flex flex-col mt-10 relative" onSubmit={handleSubmit}>
         <div className="flex sm:flex-row flex-col gap-5">
           <select
             value={inputType}
@@ -39,24 +54,25 @@ const Search = () => {
             <option value="Nutrient">Nutrient 🔬</option>
           </select>
 
-          {/* TODO: DEBOUNCE INPUT FIELD */}
           <input
             type="text"
             placeholder={`Search for a ${inputType}`}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="py-2 outline-none border-b-2 border-neutral-200 focus:border-neutral-600 transition md:text-lg"
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            autoComplete="off"
+            className=" py-2 outline-none border-b-2 border-neutral-200 focus:border-neutral-600 transition md:text-lg"
+            autoFocus
             required
           />
         </div>
 
         {/* TODO: ADD SUGGESTIONS DROPDOWN */}
-
-        {/* TODO: REMOVE THIS BUTTON */}
-        <div className="mt-8 flex justify-center">
-          <button className="md:w-[150px] sm:w-[125px] w-[100px] font-semibold hover:opacity-80 transition bg-green-500 border-green-500 text-white py-3 md:text-base text-sm border-2 rounded-full">
-            Search
-          </button>
+        <div className="absolute z-10 sm:top-[3.5rem] top-[7.25rem] w-full">
+          {input !== "" && focused && (
+            <SearchResults results={results} inputType={inputType} />
+          )}
         </div>
       </form>
     </div>
