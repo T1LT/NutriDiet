@@ -1,7 +1,7 @@
 interface NutritionRowProps {
   nutrient: string;
-  amount: string;
-  dailyValue?: string;
+  amount: any;
+  dailyValue?: number;
   subrow?: boolean;
   indented?: boolean;
 }
@@ -23,7 +23,7 @@ const NutritionRow: React.FC<NutritionRowProps> = ({
         </span>
         {amount}
       </h2>
-      {dailyValue && <h2 className="font-extrabold">{dailyValue}%</h2>}
+      {dailyValue !== undefined && <h2 className="font-extrabold">{dailyValue}%</h2>}
     </div>
   );
 };
