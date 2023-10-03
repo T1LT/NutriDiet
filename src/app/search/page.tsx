@@ -47,7 +47,10 @@ const Search = () => {
         <div className="flex sm:flex-row flex-col gap-5">
           <select
             value={inputType}
-            onChange={(e) => setInputType(e.target.value)}
+            onChange={(e) => {
+              setInputType(e.target.value);
+              setResults([]);
+            }}
             className="outline-none p-2 border-2 border-neutral-200 rounded-md focus:border-neutral-600 transition md:text-lg"
           >
             <option value="Food Item">Food Item 🌮</option>
@@ -60,7 +63,6 @@ const Search = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
             autoComplete="off"
             className=" py-2 outline-none border-b-2 border-neutral-200 focus:border-neutral-600 transition md:text-lg"
             autoFocus

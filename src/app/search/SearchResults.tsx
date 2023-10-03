@@ -11,13 +11,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 }) => {
   const router = useRouter();
 
-  // const handleClick = () => {
-  //   if (inputType === "Food Item") {
-  //
-  //   } else {
-  //
-  //   }
-  // };
+  const handleClick = (id: string) => {
+    if (inputType === "Food Item") {
+      router.push(`/nutritionfacts/${id}`);
+    } else {
+      // TODO: ADD FUNCTIONALITY FOR NUTRIENT SEARCH
+      router.push("/search")
+    }
+  };
 
   return (
     <>
@@ -28,8 +29,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
               <li
                 key={idx}
                 className="p-2 rounded-md hover:bg-neutral-300 transition cursor-pointer"
-                // TODO: ADD REDIRECTION ON CLICK
-                // onClick={handleClick}
+                onClick={() => handleClick(result[0])}
               >
                 {inputType === "Food Item" ? result[1] : result}
               </li>
