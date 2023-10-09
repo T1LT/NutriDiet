@@ -21,6 +21,7 @@ const NutritionFacts = ({ params }: { params: { slug: string } }) => {
     })();
   }, []);
 
+  // TODO: replace loading with actual loader
   if (!nutritionData || loading) return <>Loading...</>;
 
   return (

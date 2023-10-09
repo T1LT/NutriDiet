@@ -1,3 +1,4 @@
+import parseText from "@/lib/utils/parseText";
 import { useRouter } from "next/navigation";
 
 interface SearchResultsProps {
@@ -11,12 +12,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleClick = (id: string) => {
+  const handleClick = (result: string) => {
     if (inputType === "Food Item") {
-      router.push(`/nutritionfacts/${id}`);
+      router.push(`/nutritionfacts/${result[0]}`);
     } else {
-      // TODO: ADD FUNCTIONALITY FOR NUTRIENT SEARCH
-      router.push("/search")
+      router.push(`/nutrients/${parseText(result)}`);
     }
   };
 
@@ -29,7 +29,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
               <li
                 key={idx}
                 className="p-2 rounded-md hover:bg-neutral-300 transition cursor-pointer"
-                onClick={() => handleClick(result[0])}
+                onClick={() => handleClick(result)}
               >
                 {inputType === "Food Item" ? result[1] : result}
               </li>
