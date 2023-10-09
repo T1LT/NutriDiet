@@ -19,7 +19,7 @@ const NutritionFacts = ({ params }: { params: { slug: string } }) => {
       setNutritionData(processNutritionData(data));
       setLoading(false);
     })();
-  }, []);
+  }, [id]);
 
   // TODO: replace loading with actual loader
   if (!nutritionData || loading) return <>Loading...</>;

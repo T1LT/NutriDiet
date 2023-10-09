@@ -55,7 +55,7 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
       setNutrientData(data);
       setLoading(false);
     })();
-  }, []);
+  }, [nutrient]);
 
   // TODO: replace loading with actual loader
   if (!nutrientData || loading) return <>Loading...</>;
