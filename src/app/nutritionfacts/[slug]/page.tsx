@@ -5,7 +5,7 @@ import NutritionRow from "./NutritionRow";
 import type { NutritionFacts } from "@prisma/client";
 import processNutritionData from "@/lib/utils/processNutritionData";
 
-const NutritionFacts = ({ params }: { params: { slug: string } }) => {
+export default function NutritionFacts({ params }: { params: { slug: string } }) {
   const [nutritionData, setNutritionData] = useState<
     NutritionFacts | undefined
   >();
@@ -147,4 +147,3 @@ const NutritionFacts = ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default NutritionFacts;
