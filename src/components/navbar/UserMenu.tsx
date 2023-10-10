@@ -54,13 +54,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   }}
                   label="Home"
                 />
-                <MenuItem
-                  onClick={() => {
-                    router.push("/conversions");
-                    toggleOpen();
-                  }}
-                  label="Conversions"
-                />
                 <hr />
                 <MenuItem onClick={handleLogout} label="Logout" />
               </>
