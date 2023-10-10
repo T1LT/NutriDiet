@@ -16,23 +16,26 @@ import { useRouter } from "next/navigation";
 import { NutritionFacts } from "@prisma/client";
 import TablePaginationActions from "./TablePaginationActions";
 import capitalize from "@/lib/utils/capitalize";
+import { nutrientType } from "@/types";
 
 const Nutrients = ({ params }: { params: { slug: string } }) => {
-  const nutrient = params.slug;
-  // TODO: fix this
-  type nutrientDataType = Pick<NutritionFacts, "id" | "name" | nutrient>;
+  const nutrient: nutrientType = params.slug as nutrientType;
+  type nutrientDataType = Pick<NutritionFacts, "id" | "name" | typeof nutrient>;
 
   const router = useRouter();
   const [nutrientData, setNutrientData] = useState<
-    nutrientDataType | undefined
+    nutrientDataType[] | undefined
   >();
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  let emptyRows = 0;
 
   // to avoid a layout jump when reaching the last page with empty rows
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - nutrientData?.length) : 0;
+  if (nutrientData) {
+    emptyRows =
+      page > 0 ? Math.max(0, (1 + page) * rowsPerPage - nutrientData?.length) : 0;
+  }
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -92,7 +95,7 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
                       {row.name}
                     </div>
                   </TableCell>
-                  <TableCell align="right">{row[nutrient]}</TableCell>
+                  <TableCell align="right">{Number(row[nutrient])}</TableCell>
                 </TableRow>
               ))}
               {emptyRows > 0 && (
