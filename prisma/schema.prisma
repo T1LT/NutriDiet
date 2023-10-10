@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt      DateTime? @db.Date
-  email          String?   @unique
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt      DateTime @db.Date
+  email          String?  @unique
   hashedPassword String?
   name           String?
-  updatedAt      DateTime? @db.Date
+  updatedAt      DateTime @db.Date
 
   accounts Account[]
 }
