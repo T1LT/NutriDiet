@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 import NutritionRow from "./NutritionRow";
 import type { NutritionFacts } from "@prisma/client";
 import processNutritionData from "@/lib/utils/processNutritionData";
+import Loader from "@/components/Loader";
 
-export default function NutritionFacts({ params }: { params: { slug: string } }) {
+export default function NutritionFacts({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const [nutritionData, setNutritionData] = useState<
     NutritionFacts | undefined
   >();
@@ -21,12 +26,13 @@ export default function NutritionFacts({ params }: { params: { slug: string } })
     })();
   }, [id]);
 
-  // TODO: replace loading with actual loader
-  if (!nutritionData || loading) return <>Loading...</>;
+  if (!nutritionData || loading) return <Loader />;
 
   return (
     <div className="h-full flex flex-col gap-5 items-center justify-center">
-      <h1 className="font-black text-5xl uppercase">{nutritionData?.name}</h1>
+      <h1 className="font-black text-4xl uppercase text-center px-4">
+        {nutritionData?.name}
+      </h1>
       <div className="border-4 border-black p-2 divide-y-8 divide-black max-w-sm mx-2">
         {/* HEADING */}
         <div>
@@ -145,5 +151,4 @@ export default function NutritionFacts({ params }: { params: { slug: string } })
       </div>
     </div>
   );
-};
-
+}
