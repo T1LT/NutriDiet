@@ -17,6 +17,10 @@ import { NutritionFacts } from "@prisma/client";
 import TablePaginationActions from "./TablePaginationActions";
 import capitalize from "@/lib/utils/capitalize";
 import { nutrientType } from "@/types";
+import Loader from "@/components/Loader";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 const Nutrients = ({ params }: { params: { slug: string } }) => {
   const nutrient: nutrientType = params.slug as nutrientType;
@@ -34,7 +38,9 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
   // to avoid a layout jump when reaching the last page with empty rows
   if (nutrientData) {
     emptyRows =
-      page > 0 ? Math.max(0, (1 + page) * rowsPerPage - nutrientData?.length) : 0;
+      page > 0
+        ? Math.max(0, (1 + page) * rowsPerPage - nutrientData?.length)
+        : 0;
   }
 
   const handleChangePage = (
@@ -60,8 +66,7 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
     })();
   }, [nutrient]);
 
-  // TODO: replace loading with actual loader
-  if (!nutrientData || loading) return <>Loading...</>;
+  if (!nutrientData || loading) return <Loader />;
 
   return (
     <div className="h-full flex flex-col items-center justify-center">
@@ -70,10 +75,17 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
           <Table sx={{ minWidth: 650 }} size="small" aria-label="results table">
             <TableHead sx={{ backgroundColor: "lightgray" }}>
               <TableRow>
-                <TableCell sx={{ fontWeight: "bold" }}>
+                <TableCell
+                  sx={{ fontWeight: "bold", fontSize: "16px" }}
+                  className={inter.className}
+                >
                   Food Item (100g serving)
                 </TableCell>
-                <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                <TableCell
+                  align="right"
+                  sx={{ fontWeight: "bold", fontSize: "16px" }}
+                  className={inter.className}
+                >
                   {capitalize(nutrient.split("_").join(" "))} (mg)
                 </TableCell>
               </TableRow>
@@ -90,12 +102,14 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
                   <TableCell component="th" scope="row">
                     <div
                       onClick={() => router.push(`/nutritionfacts/${row.id}`)}
-                      className="cursor-pointer"
+                      className={`${inter.className} cursor-pointer`}
                     >
                       {row.name}
                     </div>
                   </TableCell>
-                  <TableCell align="right">{Number(row[nutrient])}</TableCell>
+                  <TableCell align="right" className={inter.className}>
+                    {Number(row[nutrient])}
+                  </TableCell>
                 </TableRow>
               ))}
               {emptyRows > 0 && (
