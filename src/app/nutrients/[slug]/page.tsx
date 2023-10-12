@@ -19,6 +19,7 @@ import capitalize from "@/lib/utils/capitalize";
 import { nutrientType } from "@/types";
 import Loader from "@/components/Loader";
 import { Inter } from "next/font/google";
+import parseNutrient from "@/lib/utils/parseNutrient";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -86,7 +87,7 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
                   sx={{ fontWeight: "bold", fontSize: "16px" }}
                   className={inter.className}
                 >
-                  {capitalize(nutrient.split("_").join(" "))} (mg)
+                  {capitalize(nutrient.split("_").join(" "))}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -108,7 +109,7 @@ const Nutrients = ({ params }: { params: { slug: string } }) => {
                     </div>
                   </TableCell>
                   <TableCell align="right" className={inter.className}>
-                    {Number(row[nutrient])}
+                    {parseNutrient(Number(row[nutrient]), nutrient)}
                   </TableCell>
                 </TableRow>
               ))}

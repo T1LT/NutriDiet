@@ -44,7 +44,6 @@ export async function POST(req: Request) {
       "Protein",
       "Riboflavin",
       "Saturated Fat",
-      "Serving Size",
       "Sodium",
       "Sugars",
       "Thiamin",
