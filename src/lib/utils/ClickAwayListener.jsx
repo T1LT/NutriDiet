@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect } from "react";
+
 export default function ClickAwayListener(props) {
   const { children, onClickAway } = props;
 
