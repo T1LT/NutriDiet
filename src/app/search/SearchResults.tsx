@@ -1,29 +1,71 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import parseText from "@/lib/utils/parseText";
 import { useRouter } from "next/navigation";
+import useDebounce from "@/hooks/useDebounce";
+import Loader from "@/components/Loader";
 
 interface SearchResultsProps {
-  results: string[];
+  input: string;
   inputType: string;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({
-  results,
-  inputType,
-}) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ input, inputType }) => {
   const router = useRouter();
+  const debounced = useDebounce(input, 500);
+  const [results, setResults] = useState([]);
+
+  const fetchResults = async () => {
+    const formData = new FormData();
+    formData.append("input", input);
+    formData.append("inputType", inputType);
+
+    const response = await fetch("/api/search", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+
+    if (!data.length && inputType === "Food Item") {
+      data.push(["_", "No results found."]);
+    }
+
+    if (!data.length && inputType === "Nutrient") {
+      data.push("No results found.");
+    }
+
+    setResults(data);
+  };
 
   const handleClick = (result: string) => {
     if (inputType === "Food Item") {
-      router.push(`/nutritionfacts/${result[0]}`);
+      if (result[1] !== "No results found.") {
+        router.push(`/nutritionfacts/${result[0]}`);
+      }
     } else {
-      router.push(`/nutrients/${parseText(result)}`);
+      if (result !== "No results found.") {
+        router.push(`/nutrients/${parseText(result)}`);
+      }
     }
   };
 
+  useEffect(() => {
+    if (debounced !== "") {
+      fetchResults();
+    } else {
+      setResults([]);
+    }
+  }, [debounced]);
+
+  if (!input.length) return <></>;
+
   return (
     <>
-      {results.length ? (
-        <div className="bg-white border rounded-lg shadow-xl h-[300px] overflow-x-hidden overflow-y-scroll scrollbar-hide p-2">
+      <div
+        className={`bg-white border rounded-lg shadow-xl h-[300px] overflow-x-hidden overflow-y-scroll scrollbar-hide p-2`}
+      >
+        {results.length ? (
           <ul>
             {results.map((result, idx) => (
               <li
@@ -35,10 +77,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({
               </li>
             ))}
           </ul>
-        </div>
-      ) : (
-        <></>
-      )}
+        ) : (
+          <Loader />
+        )}
+      </div>
     </>
   );
 };
